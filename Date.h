@@ -22,8 +22,8 @@ public :
 	void setYear(int y);
 
 	// getters
-	int getDay();
-	int getMonth();
-	int getYear();
+	int getDay() const;
+	int getMonth() const;
+	int getYear() const;
 
 };

@@ -23,8 +23,8 @@ public:
 	void setZipCode(int z);
 
 	// getters
-	string getCity();
-	string getStreet();
-	int getNumber();
-	int getZipCode();
-};
+	string getCity() const;
+	string getStreet() const;
+	int getNumber() const;
+	int getZipCode() const;
+}; 

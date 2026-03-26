@@ -124,15 +124,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Address.cpp" />
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Driver.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="miniVector.cpp" />
+    <ClCompile Include="Ticket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Address.h" />
     <ClInclude Include="Date.h" />
-    <ClInclude Include="Diver.h" />
+    <ClInclude Include="Driver.h" />
     <ClInclude Include="Ticket.h" />
     <ClInclude Include="miniVector.h" />
   </ItemGroup>

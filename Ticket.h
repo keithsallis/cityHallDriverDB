@@ -18,6 +18,6 @@ public:
 	void setDateIssued(Date d);
 
 	// getters
-	string getCounty();
-	Date getDateIssued();
+	string getCounty() const;
+	Date getDateIssued() const;
 };

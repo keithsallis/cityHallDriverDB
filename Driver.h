@@ -11,10 +11,11 @@ enum class workStatus { GovernmentEmployee, SelfEmployed, Student, BusinessOwnde
 
 using namespace std;
 
-class Diver
+class Driver
 {
 	// data members
 private:
+	int age;
 	string name;
 	string workCity;
 	Date dateofBirth;
@@ -26,10 +27,11 @@ private:
 
 public:
 	// constructors
-	Diver();
-	Diver(string n, string w, Date d, Date l, experienceLevel e, workStatus s);
+	Driver();
+	Driver(int age, string n, string w, Date d, Date l, experienceLevel e, workStatus s);
 
 	// setters
+	void setAge(int a);
 	void setName(string n);
 	void setWorkCity(string w);
 	void setDateOfBirth(Date d);
@@ -38,16 +40,18 @@ public:
 	void setWorkStatus(workStatus s);
 
 	// getters
-	string getName();
-	string getWorkCity();
-	Date getDateOfBirth();
-	Date getLicenseIssueDate();
-	experienceLevel getExperience();
-	workStatus getWorkStatus();
+	int getAge() const;
+	string getName() const;
+	string getWorkCity() const;
+	Date getDateOfBirth() const;
+	Date getLicenseIssueDate() const;
+	experienceLevel getExperience() const;
+	workStatus getWorkStatus() const;
 
 	// other member functions
 	void addTicket(Ticket t);
 	void addFrequentLocation(Address a);
-
-
+	void printFrequentLocations() const;
+	void printTickets() const;
+	
 };
