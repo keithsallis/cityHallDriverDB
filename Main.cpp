@@ -6,7 +6,6 @@ using namespace std;
 
 int main()
 {
-
 	cout << "Adding a driver and testing the functionality of the Driver class" << endl;
 	Driver d1(17, "John Doe", "New York", Date(1990, 5, 15), Date(2010, 6, 20), experienceLevel::Advanced, workStatus::PrivateSector);
 	// test to make sure i can add tickets and locations to the driver
@@ -35,4 +34,9 @@ int main()
 	d1.printFrequentLocations();
 
 	return 0;
+	// to do:
+	// 1. implement hashtable to store drivers and information 
+	// 2. implement menu system to interact w hastable database
+	// 3. implement file I/O to save and load driver information from a file
+	// 4. create spreadsheet for file reading
 }
