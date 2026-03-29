@@ -127,6 +127,11 @@
     <ClCompile Include="Address.cpp" />
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Driver.cpp" />
+    <ClCompile Include="DriverSort.h" />
+    <ClCompile Include="hashfunction.cpp" />
+    <ClCompile Include="hashtable.cpp" />
+    <ClCompile Include="LoadFile.cpp" />
+    <ClCompile Include="loadFile.h" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Ticket.cpp" />
   </ItemGroup>
@@ -134,8 +139,13 @@
     <ClInclude Include="Address.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="Driver.h" />
+    <ClInclude Include="hashFunction.h" />
+    <ClInclude Include="hashtable.h" />
     <ClInclude Include="Ticket.h" />
     <ClInclude Include="miniVector.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="drivers_100_test_data.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
