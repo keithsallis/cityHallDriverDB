@@ -20,4 +20,7 @@ public:
 	// getters
 	string getCounty() const;
 	Date getDateIssued() const;
+
+	//function to set ticket info
+	void setTicketInfo(string c, Date d);
 };

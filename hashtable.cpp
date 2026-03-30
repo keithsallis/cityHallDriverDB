@@ -1,7 +1,5 @@
 #include "hashTable.h"
-#include <iostream>
-
-#define NULL_VALUE -1 // 
+constexpr int NULL_VALUE = -1;
 
 CHashTable::CHashTable() 
 {
@@ -29,6 +27,19 @@ void CHashTable::insert(string key, Driver driver)
 	ptr[index].add(driver);
 }
 
+void CHashTable::remove(string key)
+{
+    int index = keyFunction.m_Adler32HashFunction(key, capacity);
+
+    for (size_t i = 0; i < ptr[index].getSize(); ++i) {
+        if (ptr[index].getRef(i).getName() == key) {
+            ptr[index].erase(i);
+            cout << "Driver with name '" << key << "' removed." << endl;
+            return;
+        }
+    }
+	cout << "Driver with name '" << key << "' not found. Cannot remove." << endl;
+}
 // function to read driver based on key
 Driver* CHashTable::search(string key)
 {
@@ -53,3 +64,17 @@ void CHashTable::display()
         }
 	}
 }
+
+// function to get driver by key and update their info or copy and add to inactive DB
+Driver* CHashTable::getDriverRef(string key)
+{
+    int index = keyFunction.m_Adler32HashFunction(key, capacity);
+    for (size_t i = 0; i < ptr[index].getSize(); ++i) {
+        if (ptr[index].getRef(i).getName() == key) {
+            return &ptr[index].getRef(i);
+        }
+    }
+    cout << "Driver with name '" << key << "' not found." << endl;
+    return nullptr;
+}
+

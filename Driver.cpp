@@ -105,23 +105,81 @@ void Driver::addTicket(Ticket t)
 	tickets.add(t);
 }
 
-void Driver::addFrequentLocation(Address a)
+void Driver::addLocation(Address a)
 {
 	frequentLocations.add(a);
 }
 
-void Driver::printFrequentLocations() const
+// printers
+void Driver::printTickets() const
 {
-	for (int i = 0; i < frequentLocations.getSize(); i++) {
-		Address a = frequentLocations.get(i);
-		cout << "  City: " << a.getCity() << ", Street: " << a.getStreet() << ", Number: " << a.getNumber() << ", Zip Code: " << a.getZipCode() << endl;
+	for (size_t i = 0; i < tickets.getSize(); ++i)
+	{
+		Ticket t = tickets.get(i);
+		cout << "County: " << t.getCounty() << ", Date Issued: "
+			<< t.getDateIssued().getDay() << "/"
+			<< t.getDateIssued().getMonth() << "/"
+			<< t.getDateIssued().getYear() << endl;
 	}
 }
 
-void Driver:: printTickets() const
+void Driver::printLocations() const
 {
-	for (int i = 0; i < tickets.getSize(); i++) {
-		Ticket t = tickets.get(i);
-		cout << "  County: " << t.getCounty() << ", Date Issued: " << t.getDateIssued().getDay() << "/" << t.getDateIssued().getMonth() << "/" << t.getDateIssued().getYear() << endl;
+	for (size_t i = 0; i < frequentLocations.getSize(); ++i)
+	{
+		Address a = frequentLocations.get(i);
+		cout << "City: " << a.getCity() << ", Street: " << a.getStreet()
+			<< ", Number: " << a.getNumber() << ", Zip Code: " << a.getZipCode() << endl;
 	}
+}
+
+// YouthDriver class implementation
+YouthDriver::YouthDriver() : licenseExpired(false) {}
+
+YouthDriver::YouthDriver(int age, string name, string workCity, Date dob, Date license, bool expired)
+	: Driver(age, name, workCity, dob, license, experienceLevel::Beginner, workStatus::Student),
+	licenseExpired(expired)
+{
+}
+bool YouthDriver::isExpired() const {
+	return licenseExpired;
+}
+
+// MiddleAgedDriver class implementation
+MiddleAgedDriver::MiddleAgedDriver() {}
+
+MiddleAgedDriver::MiddleAgedDriver(int age, string name, string workCity, Date dob, Date license)
+	: Driver(age, name, workCity, dob, license, experienceLevel::Intermediate, workStatus::PrivateSector)
+{
+}
+
+void MiddleAgedDriver::operations() {
+}
+// SeniorDriver class implementation
+SeniorDriver::SeniorDriver()
+	: Driver(), yearsWithoutTicket(0) {
+}
+
+SeniorDriver::SeniorDriver(int age, string name, string workCity, Date dob, Date license, int years)
+	: Driver(age, name, workCity, dob, license, experienceLevel::Advanced, workStatus::GovernmentEmployee),
+	yearsWithoutTicket(years){}
+
+bool SeniorDriver::discountEligible() const 
+{
+	return yearsWithoutTicket >= 5;   // Example rule
+}
+
+void SeniorDriver::operations() {}
+// UnfitDriver class implementation
+UnfitDriver::UnfitDriver() {}
+
+UnfitDriver::UnfitDriver(int age, string name, string workCity, Date dob, Date license,
+	string condition, string accommodation)
+	: Driver(age, name, workCity, dob, license, experienceLevel::Intermediate, workStatus::PrivateSector),
+	medicalCondition(condition),
+	accommodation(accommodation){}
+
+string UnfitDriver::getCondition() const 
+{
+	return medicalCondition;
 }

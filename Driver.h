@@ -50,8 +50,54 @@ public:
 
 	// other member functions
 	void addTicket(Ticket t);
-	void addFrequentLocation(Address a);
-	void printFrequentLocations() const;
-	void printTickets() const;
+	void addLocation(Address a);
 	
+	// printers
+	void printTickets() const;
+	void printLocations() const;
 };
+
+class YouthDriver : public Driver {
+private:
+	bool licenseExpired;
+
+public:
+	YouthDriver();
+	YouthDriver(int age, string name, string workCity, Date dob, Date license, bool expired);
+
+	bool isExpired() const;
+};
+
+class MiddleAgedDriver : public Driver {
+public:
+	MiddleAgedDriver();
+	MiddleAgedDriver(int age, string name, string workCity, Date dob, Date license);
+
+	void operations();   // Placeholder for future behavior
+};
+
+class SeniorDriver : public Driver {
+private:
+	int yearsWithoutTicket;
+
+public:
+	SeniorDriver();
+	SeniorDriver(int age, string name, string workCity, Date dob, Date license, int years);
+
+	bool discountEligible() const;
+	void operations();
+};
+
+class UnfitDriver : public Driver {
+private:
+	string medicalCondition;
+	string accommodation;
+
+public:
+	UnfitDriver();
+	UnfitDriver(int age, string name, string workCity, Date dob, Date license,
+		string condition, string accommodation);
+
+	string getCondition() const;
+};
+

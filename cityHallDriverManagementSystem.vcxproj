@@ -130,7 +130,9 @@
     <ClCompile Include="DriverSort.h" />
     <ClCompile Include="hashfunction.cpp" />
     <ClCompile Include="hashtable.cpp" />
-    <ClCompile Include="LoadFile.cpp" />
+    <ClCompile Include="LoadFile.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="loadFile.h" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Ticket.cpp" />

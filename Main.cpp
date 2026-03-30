@@ -1,4 +1,6 @@
 ﻿#include <iostream>
+#include <limits>
+
 #include "Driver.h"
 #include "hashtable.h"
 #include "DriverSort.h"
@@ -7,30 +9,178 @@
 using namespace std;
 
 // print drivers function to test miniVector sorting
-void printDrivers(const miniVector<Driver>& drivers)
+void static printDrivers(const miniVector<Driver>& drivers)
 {
 	for (size_t i = 0; i < drivers.getSize(); ++i)
 	{
 		const Driver& d = drivers.get(i);
-		cout << "Name: " << d.getName() << ", License Issue Date: "
+		cout << "Name: " << d.getName() << "| License Issue Date: "
 			 << d.getLicenseIssueDate().getDay() << "/"
 			 << d.getLicenseIssueDate().getMonth() << "/"
 			 << d.getLicenseIssueDate().getYear() << endl;
 	}
 }
 
-void menu()
+void static menu()
 {
+	CHashTable driverDB(50);
+	miniVector<Driver> inactiveDriverDB;
+	miniVector<Driver> driverList;
+	Driver* tempDriver;
+	Driver* searchResult;
+	Ticket ticket;
+	Date date;
+	string city = " ", street = " ", county = " ", searchName = " ";
+	int streetNumber = 0, zipCode = 0, choice = 0, day = 0, month = 0, year = 0, numReturn = 0;
+
+
 	cout << "=== Driver Database Menu ===" << endl;
+	cout << "All searches are space and case sensitive" << endl;
 	cout << "1. Upload driver data from file" << endl;
 	cout << "2. Search for driver by name" << endl;
 	cout << "3. Add ticket to driver" << endl;
 	cout << "4. Add frequent location to driver" << endl;
 	cout << "5. Remove and add to inactive drivers DB" << endl;
-	cout << "6. Exit" << endl;
+	cout << "6. search N most recently issued liscenses" << endl;
+	cout << "7. search N Oldest issued liscenses" << endl;
+	cout << "8. Display inactive drivers" << endl;
+	cout << "9. Exit" << endl; 
+
+	cout << "Pick a choice: "; 
+	if (!(cin >> choice)) {
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cout << "Invalid input. Please enter a number.\n";
+		choice = 0;
+	}
+
+	do
+	{
+		switch (choice)
+		{
+			case 1:
+				cout << "You chose to upload driver data from file." << endl;
+				loadDriversFromCSV("drivers_100_test_data.csv", driverDB, driverList);
+				sortByLicense(driverList);
+
+				break;
+			case 2:
+				cout << "Enter Search Name: ";
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				getline(cin, searchName); // consume leftover newline
+
+				searchResult = driverDB.search(searchName);
+
+				if (searchResult != nullptr)
+				{
+					cout << "\nSearch Result:\n";
+					cout << searchResult->getName() << " | " << searchResult->getWorkCity() << endl;
+				}
+
+				break;
+			case 3:
+				cout << "Enter Search Name to add ticket: ";
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				getline(cin, searchName); // consume leftover newline
+
+				searchResult = driverDB.search(searchName);
+
+				cout << "Enter ticket county: ";
+				cin >> county; 
+
+				cout << "Enter ticket date (day month year): ";
+				cin >> day;
+				cout << "/";
+				cin >> month;
+				cout << "/";
+				cin >> year;
+
+				ticket.setTicketInfo(county, Date(day, month, year));
+				
+				searchResult->addTicket(ticket);
+
+				cout << "Added ticket to " << searchResult->getName() << "'s record." << endl;
+
+				// display the updated tickets for the driver
+				searchResult->printTickets();
+
+				break;
+			case 4:
+				cout << "Enter Search Name to add location: ";
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				getline(cin, searchName); // consume leftover newline
+
+				searchResult = driverDB.search(searchName);
+
+				cout << "Enter city: ";
+				getline(cin, city);
+				cout << "Enter street: ";
+				getline(cin, street);
+				cout << "Enter number: ";
+				cin >> streetNumber;
+				cout << "Enter zip code: ";
+				cin >> zipCode;
+
+				cout << "Added location to " << searchResult->getName() << "'s record." << endl;
+
+				// display the updated frequent locations for the driver
+				searchResult->printLocations();
+				break;
+			case 5:
+				cout << "Enter Driver's name to remove:";
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				getline(cin, searchName); // consume leftover newline
+
+				// place holder driver while it gets transferred to inactive DB
+				tempDriver = driverDB.getDriverRef(searchName);
+
+				// if driver exists, add to inactive DB before removing from active DB
+				if (tempDriver != nullptr)
+				{
+					inactiveDriverDB.add(*tempDriver);
+					cout << "Driver '" << tempDriver->getName() << "' added to inactive drivers database." << endl;
+				}
+
+				// print names of inactive drivers to verify
+				cout << "=== Inactive Drivers ===" << endl;
+				for (size_t i = 0; i < inactiveDriverDB.getSize(); ++i)
+				{
+					cout << inactiveDriverDB.get(i).getName() << endl;
+				}
+
+				driverDB.remove(searchName);
+				break;
+			case 6:
+				cout << "Enter amount of liscenses to return: ";
+				cin >> numReturn;
+				
+				printMostRecent(driverList, numReturn);
+				break;
+			case 7:
+				cout << "Enter amount of liscenses to return: ";
+				cin >> numReturn;
+
+				printOldest(driverList, numReturn);
+
+				break;
+			case 8:
+				cout << "Exiting program. Goodbye!" << endl;
+				break;
+			default:
+				cout << "Invalid choice. Please pick a valid option from the menu." << endl;
+				break;
+		}
+
+		cout << "\nPick a choice: ";
+		cin >> choice;
+
+	} while (choice != 8);
+	
 }
 int main()
 {
+	menu();
+
 	/* TEST block 1: Passed  // undo me to run Test 1
 	* create driver
 	* add tickets and locations to respective miniVectors
@@ -49,8 +199,8 @@ int main()
 	d1.addTicket(Ticket("Kings County", Date(2023, 7, 5)));
 	d1.addTicket(Ticket("Queens County", Date(2024, 1, 20)));
 
-	d1.addFrequentLocation(Address("New York", "5th Avenue", 123, 10001));
-	d1.addFrequentLocation(Address("New York", "Madison Avenue", 456, 10022));
+	d1.addLocation(Address("New York", "5th Avenue", 123, 10001));
+	d1.addLocation(Address("New York", "Madison Avenue", 456, 10022));
 
 	// print out some of the driver's information to verify everything is working
 	cout << "Driver Name: " << d1.getName() << endl;
@@ -85,7 +235,7 @@ int main()
 	cout << "Search Result for 'Alice Williams': " << endl;
 	cout << "Name: " << searchResult->getName() << ", Age: " << searchResult->getAge()
 		<< ", Work City: " << searchResult->getWorkCity() << endl;
-	undo me to run Test 1 -> */ 
+	// undo me to run Test 1 -> */ 
 	
 
 	/* <- undo me to run Test 2  
@@ -121,7 +271,6 @@ int main()
 	*/
 
 	/*  <- undo me to run Test 3
-	* 
 	* TEST BLOCK 3: loading driver data from CSV file and interacting with hashtable
 	* creates hashtable and miniVector to store driver data
 	* load driver data from CSV
@@ -147,28 +296,16 @@ int main()
 		cout << "\nSearch:\n";
 		cout << result->getName() << " | " << result->getWorkCity() << endl;
 	}
-	 undo me to run Test 3 -> */
+	undo me to run Test 3 ->*/
+                               
+	
 
-	/*
-	// menu system to interact w hashtable DB:
-	menu();
-
-	int choice;
-
-	cout << "Pick a choice: ";
-	cin >> choice;
-
-	switch (choice)
-	{
-
-	}
-	*/
-	return 0;
-	// 4. menu system to interact w hashtable DB:
-	// 		- upload driver data from file
-	// 		- search for driver by name
+	return 0;                                      
+	// 4. menu system to interact w hashtable DB   
+	// 		- upload driver data from file          
+	// 		- search for driver by name         
 	// 		- add ticket to driver
 	// 		- add frequent location to driver
-	//      - remove and add to inactive drivers db 
-	// 5. makefile
+	//      - remove and add to inactive drivers DB 
+	// 5. makefile 
 }

@@ -27,4 +27,7 @@ public:
 	string getStreet() const;
 	int getNumber() const;
 	int getZipCode() const;
+
+	// function to set address info
+	void setAddressInfo(string c, string s, int n, int z);
 }; 

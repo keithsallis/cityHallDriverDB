@@ -46,3 +46,10 @@ int Date::getYear() const
 {
 	return year;
 }
+
+void Date::setDateInfo(int d, int m, int y)
+{
+	day = d;
+	month = m;
+	year = y;
+}

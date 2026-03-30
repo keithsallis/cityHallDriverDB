@@ -19,5 +19,8 @@ public:
     void insert(string key, Driver driver);
     Driver* search(string key);
     void display();
+	void remove(string key);
+
+    Driver* getDriverRef(string key);
 };
 

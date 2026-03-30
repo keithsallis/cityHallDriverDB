@@ -58,3 +58,11 @@ int Address::getZipCode() const
 {
 	return zipCode;
 }
+
+void Address::setAddressInfo(string c, string s, int n, int z)
+{
+	city = c;
+	street = s;
+	Number = n;
+	zipCode = z;
+}

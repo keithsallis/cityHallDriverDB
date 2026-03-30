@@ -26,4 +26,6 @@ public :
 	int getMonth() const;
 	int getYear() const;
 
+	// function to set date info
+	void setDateInfo(int d, int m, int y);
 };

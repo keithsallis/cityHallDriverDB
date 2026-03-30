@@ -35,3 +35,9 @@ Date Ticket::getDateIssued() const
 	return dateIssued;
 }
 
+//function to set ticket info
+void Ticket::setTicketInfo(string c, Date d)
+{
+	county = c;
+	dateIssued = d;
+}
