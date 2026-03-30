@@ -25,6 +25,22 @@ Driver::Driver(int a, string n, string w, Date d, Date l, experienceLevel e, wor
 	status = s;
 }
 
+Driver::Driver(string n, string w, Date dob)
+{
+    name = n;
+    workCity = w;
+    dateofBirth = dob;
+
+    age = 0;
+    licenseIssueDate = Date();
+    experience = experienceLevel::Beginner;
+    status = workStatus::GovernmentEmployee;
+
+    tickets = miniVector<Ticket>();
+    frequentLocations = miniVector<Address>();
+}
+
+
 // setters
 void Driver::setAge(int a)
 {
