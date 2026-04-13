@@ -29,6 +29,8 @@ public:
 	// constructors
 	Driver();
 	Driver(int age, string n, string w, Date d, Date l, experienceLevel e, workStatus s);
+	Driver(string n, string w, Date dob);
+
 
 	// setters
 	void setAge(int a);
